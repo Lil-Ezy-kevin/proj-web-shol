@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSP La Joie - Suivi d'Emploi du Temps - Espace Parents</title>
+    <link href="style.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .logout-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .nav-bar {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 0 0 8px 8px;
+            margin-bottom: 20px;
+        }
+        .nav-bar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+        .nav-bar ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+        .nav-bar ul li a:hover {
+            background-color: #555;
+            border-radius: 5px;
+        }
+        h2 {
+            color: #4CAF50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        .section {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fdfdfd;
+        }
+        .timetable-day {
+            margin-bottom: 20px;
+        }
+        .timetable-day h3 {
+            background-color: #e0e0e0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 0;
+        }
+        .event {
+            background-color: #f9f9f9;
+            border-left: 5px solid #4CAF50;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .event-time {
+            font-weight: bold;
+            color: #555;
+            flex-shrink: 0;
+            margin-right: 15px;
+        }
+        .event-details {
+            flex-grow: 1;
+        }
+        .event-details p {
+            margin: 0;
+        }
+        .absence-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed #eee;
+        }
+        .absence-item:last-child {
+            border-bottom: none;
+        }
+        .justify-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .message-item {
+            background-color: #f2f7ff;
+            border-left: 5px solid #007bff;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        .message-item p {
+
+margin: 0 0 5px 0;
+        }
+        .message-item .sender {
+            font-weight: bold;
+            color: #0056b3;
+        }
+        .message-item .date {
+            font-size: 0.8em;
+            color: #777;
+            text-align: right;
+        }
+        .announcement-item {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        .announcement-item h4 {
+            margin-top: 0;
+            margin-bottom: 5px;
+            color: #856404;
+        }
+        .announcement-item .date {
+            font-size: 0.8em;
+            color: #856404;
+            text-align: right;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: #777;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            header h1 {
+                margin-bottom: 10px;
+            }
+            .nav-bar ul {
+                flex-direction: column;
+            }
+            .nav-bar ul li a {
+                text-align: center;
+                padding: 10px;
+            }
+            .event {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .event-time {
+                margin-bottom: 5px;
+            }
+            .absence-item, .message-item, .announcement-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .justify-btn {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Espace Parents - Suivi de [Nom de l'enfant]</h1>
+            <button class="logout-btn">Déconnexion</button>
+        </header>
+
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="#emploi-du-temps">Emploi du temps</a></li>
+                <li><a href="#absences">Absences</a></li>
+                <li><a href="#messages">Messages</a></li>
+                <li><a href="#annonces">Annonces</a></li>
+                <li><a href="#notes">Notes & Devoirs</a></li>
+            </ul>
+        </nav>
+
+        <section id="emploi-du-temps" class="section">
+            <h2>Emploi du temps de la semaine</h2>
+            <div class="timetable-day">
+                <h3>Lundi 15 Janvier</h3>
+                <div class="event">
+                    <span class="event-time">08:30 - 09:30</span>
+                    <div class="event-details">
+                        <p><strong>Mathématiques</strong> - Salle B201</p>
+                        <p>Prof. Souleymane</p>
+                    </div>
+                </div>
+                <div class="event">
+                    <span class="event-time">09:45 - 10:45</span>
+                    <div class="event-details">
+                        <p><strong>Français</strong> - Salle C105</p>
+                        <p>Prof. H.Kanta</p>
+                    </div>
+                </div>
+                <div class="event">
+                    <span class="event-time">14:00 - 15:00</span>
+                    <div class="event-details">
+                        <p><strong>Activité Sportive: Football</strong> - Gymnase</p>
+                        <p>Coach Abdoul.w</p>
+                    </div>
+                </div>
+            </div>
+            <div class="timetable-day">
+                <h3>Mardi 16 Janvier</h3>
+                <div class="event">
+                    <span class="event-time">10:00 - 11:00</span>
+                    <div class="event-details">
+                        <p><strong>Histoire-Géographie</strong> - Salle B203</p>
+                        <p>Prof. M.ibrahim</p>
+
+</div>
+                </div>
+                <div class="event">
+                    <span class="event-time">13:30 - 14:30</span>
+                    <div class="event-details">
+                        <p><strong>Anglais</strong> - Salle C102</p>
+                        <p>Prof. A.Mahamadou</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="absences" class="section">
+            <h2>Absences & Retards</h2>
+            <div class="absence-item">
+                <p><strong>15 Jan 2024, 08:30</strong> - Cours de Mathématiques (Absence)</p>
+                <button class="justify-btn">Justifier</button>
+            </div>
+            <div class="absence-item">
+                <p><strong>10 Jan 2024, 09:00</strong> - Cours de Français (Retard)</p>
+                <button class="justify-btn">Justifier</button>
+            </div>
+            <p>Aucune absence ou retard non justifié à ce jour.</p>
+        </section>
+
+        <section id="messages" class="section">
+            <h2>Messages de l'établissement</h2>
+            <div class="message-item">
+                <p class="sender">Prof. Souleymane (Mathématiques)</p>
+                <p>Votre enfant a fait d'excellents progrès en algèbre cette semaine. Bravo !</p>
+                <p class="date">14 Jan 2024, 16:00</p>
+            </div>
+            <div class="message-item">
+                <p class="sender">Administration Scolaire</p>
+                <p>Rappel : Réunion Parents-Professeurs le 25 Janvier à 18h en salle polyvalente.</p>
+                <p class="date">12 Jan 2024, 10:30</p>
+            </div>
+        </section>
+
+        <section id="annonces" class="section">
+            <h2>Annonces importantes</h2>
+            <div class="announcement-item">
+                <h4>Journée Portes Ouvertes</h4>
+                <p>L'école organise une journée portes ouvertes le Samedi 3 Février de 9h à 16h. Venez nombreux découvrir nos installations et rencontrer l'équipe pédagogique.</p>
+                <p class="date">10 Jan 2024</p>
+            </div>
+            <div class="announcement-item">
+                <h4>Modification d'horaire pour la cantine</h4>
+                <p>Exceptionnellement, la cantine fermera à 13h le Vendredi 19 Janvier. Merci de prendre vos dispositions.</p>
+                <p class="date">08 Jan 2024</p>
+            </div>
+        </section>
+
+        <section id="notes" class="section">
+            <h2>Notes et Devoirs</h2>
+            <p>Cette section affichera les dernières notes obtenues et les devoirs à venir. (Contenu à implémenter)</p>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 CSP La Joie. Tous droits réservés.</p>
+        </footer>
+    </div>
+
+    <script>
+        // JavaScript pour les interactions futures (par ex. gérer la justification d'absence, etc.)
+        document.addEventListener('DOMContentLoaded', () => {
+            const justifyButtons = document.querySelectorAll('.justify-btn');
+            justifyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    alert("Fonctionnalité de justification d'absence à implémenter.");
+                    // Ici, vous ajouteriez la logique pour envoyer la justification au serveur
+                });
+            });
+
+            const navLinks = document.querySelectorAll('.nav-bar a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
